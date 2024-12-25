@@ -8,7 +8,7 @@ let songs = await axios.get("http://localhost:8888/api/songs");
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-4 justify-center p-5 pr-16">
+  <div class="flex flex-wrap justify-center p-16 w-full sm:w-2/3">
   <Song v-for="song in songs.data" :title="song.title" :artist="song.artist" :genre="song.genre"
         :length="song.length"></Song>
   </div>

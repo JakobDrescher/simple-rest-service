@@ -1,14 +1,29 @@
 <script setup>
 import {ref} from "vue";
 import axios from "axios";
+import {useSongStore} from "@/stores/songStore.js";
 
-const title = ref();
-const artist = ref();
-const genre = ref();
-const length = ref();
+const songStore = useSongStore();
+
+const id = ref(songStore.song.id);
+const title = ref(songStore.song.title);
+const artist = ref(songStore.song.artist);
+const genre = ref(songStore.song.genre);
+const length = ref(songStore.song.length);
+
+
 
 function createSong() {
   axios.post("http://localhost:8888/api/songs", {
+    title: title.value,
+    artist: artist.value,
+    genre: genre.value,
+    length: parseTime(length.value),
+  });
+}
+
+function editSong() {
+  axios.put(`http://localhost:8888/api/songs/${id}`, {
     title: title.value,
     artist: artist.value,
     genre: genre.value,
@@ -20,14 +35,14 @@ function parseTime(time) {
   let result = new Date();
   let sections = time.split(":");
   result.setSeconds(sections[sections.length - 1]);
-  if (sections.length>1){
+  if (sections.length > 1) {
     result.setMinutes(sections[sections.length - 2]);
-  }else{
+  } else {
     result.setMinutes(0);
   }
-  if (sections.length>2){
+  if (sections.length > 2) {
     result.setHours(sections[sections.length - 3]);
-  }else{
+  } else {
     result.setHours(0);
   }
 
@@ -72,7 +87,16 @@ function parseTime(time) {
       </div>
     </div>
     <div class="absolute flex items-center justify-between -bottom-6 right-6 w-full">
-      <button class="bg-black rounded-[50%] w-14 h-10 p-6 -ml-6 text-white" type="button"
+      <button v-if="songStore.edit" class="bg-black rounded-[50%] w-14 h-10 p-6 -ml-6 text-white" type="button"
+              @click="editSong(); $router.push('/')">
+        <div class="-ml-2 -mt-3">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+          </svg>
+        </div>
+      </button>
+      <button v-else class="bg-black rounded-[50%] w-14 h-10 p-6 -ml-6 text-white" type="button"
               @click="createSong(); $router.push('/')">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

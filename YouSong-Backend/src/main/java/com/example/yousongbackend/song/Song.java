@@ -46,6 +46,22 @@ public class Song {
         return length;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setLength(LocalTime length) {
+        this.length = length;
+    }
+
     @Override
     public String toString() {
         return "Song{" +

@@ -25,4 +25,14 @@ public class SongController {
     public Song createSong(@RequestBody Song song) {
         return songRepository.save(song);
     }
+
+    @PutMapping("/songs/{id}")
+    public Song updateSong(@PathVariable long id, @RequestBody Song updatedSong) {
+        Song song = songRepository.findById(id);
+        song.setTitle(updatedSong.getTitle());
+        song.setArtist(updatedSong.getArtist());
+        song.setGenre(updatedSong.getGenre());
+        song.setLength(updatedSong.getLength());
+        return songRepository.save(song);
+    }
 }

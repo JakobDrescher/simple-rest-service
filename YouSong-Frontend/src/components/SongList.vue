@@ -10,6 +10,6 @@ let songs = await axios.get("http://localhost:8888/api/songs");
 <template>
   <div class="flex flex-wrap justify-center p-16 w-full sm:w-2/3">
   <Song v-for="song in songs.data" :title="song.title" :artist="song.artist" :genre="song.genre"
-        :length="song.length"></Song>
+        :length="song.length" :id="song.id"></Song>
   </div>
 </template>

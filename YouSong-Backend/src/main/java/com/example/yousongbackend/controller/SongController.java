@@ -5,6 +5,7 @@ import com.example.yousongbackend.song.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,6 +20,14 @@ public class SongController {
     @GetMapping("/songs")
     public List<Song> getAllSongs() {
         return songRepository.findAll();
+    }
+
+    @GetMapping("/songs/{search}")
+    public List<Song> getSongsBySearch(@PathVariable String search) {
+        List<Song> result = new ArrayList<>();
+        result.addAll(songRepository.findByTitleContainingIgnoreCase(search));
+        result.addAll(songRepository.findByArtistContainingIgnoreCase(search));
+        return result;
     }
 
     @PostMapping("/songs")

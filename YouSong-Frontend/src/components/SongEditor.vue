@@ -5,11 +5,11 @@ import {useSongStore} from "@/stores/songStore.js";
 
 const songStore = useSongStore();
 
-const id = ref(songStore.song.id);
-const title = ref(songStore.song.title);
-const artist = ref(songStore.song.artist);
-const genre = ref(songStore.song.genre);
-const length = ref(songStore.song.length);
+const id = ref(songStore.currentSong.id);
+const title = ref(songStore.currentSong.title);
+const artist = ref(songStore.currentSong.artist);
+const genre = ref(songStore.currentSong.genre);
+const length = ref(songStore.currentSong.length);
 </script>
 
 <template>
@@ -67,7 +67,7 @@ const length = ref(songStore.song.length);
           </svg>
         </div>
       </button>
-      <button class="bg-black rounded-[50%] w-14 h-10 p-6 -mr-6 text-white" type="button" @click="$router.push('/')">
+      <button class="bg-black rounded-[50%] w-14 h-10 p-6 -mr-6 text-white" type="button" @click="songStore.changeSong(); $router.push('/')">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">

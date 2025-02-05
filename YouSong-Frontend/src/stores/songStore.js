@@ -10,13 +10,25 @@ export const useSongStore = defineStore('songStore', () => {
         genre: null,
         length: null
     });
+    const searchTerm = ref ("");
+
     const songs = ref();
-    getAllSongs();
+    getSongs();
 
     const edit = ref(false);
 
-    function changeSong(id) {
-        currentSong.value = songs.value.filter((song) => song.id == id)[0];
+    function changeSong(id=null) {
+        if (id!=null) {
+            currentSong.value = songs.value.filter((song) => song.id == id)[0];
+        }else{
+            currentSong.value = {
+                id: null,
+                title: null,
+                artist: null,
+                genre: null,
+                length: null
+            }
+        }
     }
 
     function createSong(title, artist, genre, length) {
@@ -25,7 +37,7 @@ export const useSongStore = defineStore('songStore', () => {
             artist: artist,
             genre: genre,
             length: parseTime(length),
-        }).then(() => {getAllSongs()});
+        }).then(() => {getSongs()});
     }
 
     function editSong(id, title, artist, genre, length) {
@@ -34,7 +46,7 @@ export const useSongStore = defineStore('songStore', () => {
             artist: artist,
             genre: genre,
             length: parseTime(length),
-        }).then(() => {getAllSongs()});
+        }).then(() => {getSongs()});
     }
 
     function parseTime(time) {
@@ -55,9 +67,17 @@ export const useSongStore = defineStore('songStore', () => {
         return result.toTimeString().split(" ")[0];
     }
 
-    function getAllSongs() {
-        return axios.get("http://localhost:8888/api/songs").then((res) => {songs.value=res.data;});
+    function getSongs() {
+        if(searchTerm.value == "") {
+            return axios.get("http://localhost:8888/api/songs").then((res) => {
+                songs.value = res.data;
+            });
+        }else{
+            return axios.get("http://localhost:8888/api/songs/"+searchTerm.value).then((res) => {
+                songs.value = res.data;
+            });
+        }
     }
 
-    return {song: currentSong, changeSong, edit, songs, editSong, createSong};
+    return {currentSong, changeSong, edit, songs, editSong, createSong, searchTerm,getSongs};
 });

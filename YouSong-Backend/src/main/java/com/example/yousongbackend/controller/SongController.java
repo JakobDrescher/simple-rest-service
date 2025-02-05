@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
 public class SongController {
@@ -34,5 +34,11 @@ public class SongController {
         song.setGenre(updatedSong.getGenre());
         song.setLength(updatedSong.getLength());
         return songRepository.save(song);
+    }
+
+    @DeleteMapping("/songs/{id}")
+    public void deleteSong(@PathVariable long id){
+        Song song = songRepository.findById(id);
+        songRepository.delete(song);
     }
 }

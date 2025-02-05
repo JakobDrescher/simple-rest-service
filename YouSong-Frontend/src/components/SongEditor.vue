@@ -23,7 +23,7 @@ function createSong() {
 }
 
 function editSong() {
-  axios.put(`http://localhost:8888/api/songs/${id}`, {
+  axios.put(`http://localhost:8888/api/songs/${id.value}`, {
     title: title.value,
     artist: artist.value,
     genre: genre.value,

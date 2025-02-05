@@ -10,44 +10,6 @@ const title = ref(songStore.song.title);
 const artist = ref(songStore.song.artist);
 const genre = ref(songStore.song.genre);
 const length = ref(songStore.song.length);
-
-
-
-function createSong() {
-  axios.post("http://localhost:8888/api/songs", {
-    title: title.value,
-    artist: artist.value,
-    genre: genre.value,
-    length: parseTime(length.value),
-  });
-}
-
-function editSong() {
-  axios.put(`http://localhost:8888/api/songs/${id.value}`, {
-    title: title.value,
-    artist: artist.value,
-    genre: genre.value,
-    length: parseTime(length.value),
-  });
-}
-
-function parseTime(time) {
-  let result = new Date();
-  let sections = time.split(":");
-  result.setSeconds(sections[sections.length - 1]);
-  if (sections.length > 1) {
-    result.setMinutes(sections[sections.length - 2]);
-  } else {
-    result.setMinutes(0);
-  }
-  if (sections.length > 2) {
-    result.setHours(sections[sections.length - 3]);
-  } else {
-    result.setHours(0);
-  }
-
-  return result.toTimeString().split(" ")[0];
-}
 </script>
 
 <template>
@@ -88,7 +50,7 @@ function parseTime(time) {
     </div>
     <div class="absolute flex items-center justify-between -bottom-6 right-6 w-full">
       <button v-if="songStore.edit" class="bg-black rounded-[50%] w-14 h-10 p-6 -ml-6 text-white" type="button"
-              @click="editSong(); $router.push('/')">
+              @click="songStore.editSong(id, title, artist, genre, length); $router.push('/')">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">
@@ -97,7 +59,7 @@ function parseTime(time) {
         </div>
       </button>
       <button v-else class="bg-black rounded-[50%] w-14 h-10 p-6 -ml-6 text-white" type="button"
-              @click="createSong(); $router.push('/')">
+              @click="songStore.createSong(title, artist, genre, length); $router.push('/')">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">

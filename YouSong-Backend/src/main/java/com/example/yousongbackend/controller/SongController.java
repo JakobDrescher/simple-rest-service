@@ -1,5 +1,6 @@
 package com.example.yousongbackend.controller;
 
+import com.example.yousongbackend.artist.ArtistRepository;
 import com.example.yousongbackend.song.Song;
 import com.example.yousongbackend.song.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ public class SongController {
 
     @Autowired
     private SongRepository songRepository;
+    @Autowired
+    private ArtistRepository artistRepository;
 
     @GetMapping("/songs")
     public List<Song> getAllSongs() {
@@ -26,7 +29,9 @@ public class SongController {
     public List<Song> getSongsBySearch(@PathVariable String search) {
         List<Song> result = new ArrayList<>();
         result.addAll(songRepository.findByTitleContainingIgnoreCase(search));
-        result.addAll(songRepository.findByArtistContainingIgnoreCase(search));
+        artistRepository.findByNameContainingIgnoreCase(search).forEach(artist -> {
+            result.addAll(songRepository.findByArtist(artist));
+        });
         return result;
     }
 
@@ -46,7 +51,7 @@ public class SongController {
     }
 
     @DeleteMapping("/songs/{id}")
-    public void deleteSong(@PathVariable long id){
+    public void deleteSong(@PathVariable long id) {
         Song song = songRepository.findById(id);
         songRepository.delete(song);
     }

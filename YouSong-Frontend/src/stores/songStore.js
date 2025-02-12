@@ -12,7 +12,7 @@ export const useSongStore = defineStore('songStore', () => {
     });
     const searchTerm = ref ("");
 
-    const songs = ref();
+    const songs = ref([]);
     getSongs();
 
     const edit = ref(false);
@@ -68,16 +68,37 @@ export const useSongStore = defineStore('songStore', () => {
     }
 
     function getSongs() {
+        songs.value=[];
         if(searchTerm.value == "") {
             return axios.get("http://localhost:8888/api/songs").then((res) => {
-                songs.value = res.data;
+                res.data.forEach((song) => {
+                    songs.value.push({
+                        id: song.id,
+                        title: song.title,
+                        artist: song.artist.name,
+                        genre: song.genre,
+                        length: song.length
+                    })
+                });
             });
         }else{
             return axios.get("http://localhost:8888/api/songs/"+searchTerm.value).then((res) => {
-                songs.value = res.data;
+                res.data.forEach((song) => {
+                    songs.value.push({
+                        id: song.id,
+                        title: song.title,
+                        artist: song.artist.name,
+                        genre: song.genre,
+                        length: song.length
+                    })
+                });
             });
         }
     }
 
-    return {currentSong, changeSong, edit, songs, editSong, createSong, searchTerm,getSongs};
+    function deleteSong(id) {
+        axios.delete(`http://localhost:8888/api/songs/`+id).then((res) => {getSongs()});
+    }
+
+    return {currentSong, changeSong, edit, songs, editSong, createSong, searchTerm,getSongs,deleteSong};
 });

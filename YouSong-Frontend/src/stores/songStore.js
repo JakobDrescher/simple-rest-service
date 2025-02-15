@@ -72,10 +72,11 @@ export const useSongStore = defineStore('songStore', () => {
         if(searchTerm.value == "") {
             return axios.get("http://localhost:8888/api/songs").then((res) => {
                 res.data.forEach((song) => {
+                    let name = ((song.artist!=null)?song.artist.name:"unknown");
                     songs.value.push({
                         id: song.id,
                         title: song.title,
-                        artist: song.artist.name,
+                        artist: name,
                         genre: song.genre,
                         length: song.length
                     })
@@ -84,10 +85,11 @@ export const useSongStore = defineStore('songStore', () => {
         }else{
             return axios.get("http://localhost:8888/api/songs/"+searchTerm.value).then((res) => {
                 res.data.forEach((song) => {
+                    let name = ((song.artist!=null)?song.artist.name:"unknown");
                     songs.value.push({
                         id: song.id,
                         title: song.title,
-                        artist: song.artist.name,
+                        artist: name,
                         genre: song.genre,
                         length: song.length
                     })

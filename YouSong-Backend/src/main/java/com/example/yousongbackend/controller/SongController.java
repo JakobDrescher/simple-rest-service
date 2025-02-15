@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/songs")
 public class SongController {
 
     @Autowired
@@ -20,12 +20,12 @@ public class SongController {
     @Autowired
     private ArtistRepository artistRepository;
 
-    @GetMapping("/songs")
+    @GetMapping
     public List<Song> getAllSongs() {
         return songRepository.findAll();
     }
 
-    @GetMapping("/songs/{search}")
+    @GetMapping("/{search}")
     public List<Song> getSongsBySearch(@PathVariable String search) {
         List<Song> result = new ArrayList<>();
         result.addAll(songRepository.findByTitleContainingIgnoreCase(search));
@@ -35,12 +35,12 @@ public class SongController {
         return result;
     }
 
-    @PostMapping("/songs")
+    @PostMapping
     public Song createSong(@RequestBody Song song) {
         return songRepository.save(song);
     }
 
-    @PutMapping("/songs/{id}")
+    @PutMapping("/{id}")
     public Song updateSong(@PathVariable long id, @RequestBody Song updatedSong) {
         Song song = songRepository.findById(id);
         song.setTitle(updatedSong.getTitle());
@@ -50,7 +50,7 @@ public class SongController {
         return songRepository.save(song);
     }
 
-    @DeleteMapping("/songs/{id}")
+    @DeleteMapping("/{id}")
     public void deleteSong(@PathVariable long id) {
         Song song = songRepository.findById(id);
         songRepository.delete(song);

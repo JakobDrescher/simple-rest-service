@@ -23,7 +23,8 @@ console.log(props);
           </svg>
         </div>
       </button>
-      <button class="bg-black rounded-[50%] w-14 h-10 p-6 -mr-6 text-white" type="button">
+      <button class="bg-black rounded-[50%] w-14 h-10 p-6 -mr-6 text-white" type="button"
+              @click="artistStore.changeArtist(id); artistStore.edit=true; $router.push('artists/editor')">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">

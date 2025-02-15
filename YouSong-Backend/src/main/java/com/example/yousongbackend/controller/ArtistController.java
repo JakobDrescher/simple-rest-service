@@ -11,31 +11,36 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/artists")
 public class ArtistController {
     @Autowired
     private ArtistRepository artistRepository;
     @Autowired
     private SongRepository songRepository;
 
-    @GetMapping("/artists")
+    @GetMapping
     public List<Artist> getAllArtists() {
         return artistRepository.findAll();
     }
 
-    @PostMapping("/artists")
+    @GetMapping("/{search}")
+    public List<Artist> getAllArtists(@PathVariable String search) {
+        return artistRepository.findByNameContainingIgnoreCase(search);
+    }
+
+    @PostMapping
     public Artist createArtist(@RequestBody Artist artist) {
         return artistRepository.save(artist);
     }
 
-    @PutMapping("/artists/{id}")
+    @PutMapping("/{id}")
     public Artist updateSong(@PathVariable long id, @RequestBody Artist updatedArtist) {
         Artist artist = artistRepository.findById(id);
         artist.setName(updatedArtist.getName());
         return artistRepository.save(artist);
     }
 
-    @DeleteMapping("/artists/{id}")
+    @DeleteMapping("/{id}")
     public void deleteSong(@PathVariable long id) {
         Artist artist = artistRepository.findById(id);
         List<Song> songs = songRepository.findByArtist(artist);

@@ -2,12 +2,14 @@
 import {ref} from "vue";
 import axios from "axios";
 import {useSongStore} from "@/stores/songStore.js";
+import {useArtistStore} from "@/stores/artistStore.js";
 
 const songStore = useSongStore();
+const artistStore = useArtistStore();
 
 const id = ref(songStore.currentSong.id);
 const title = ref(songStore.currentSong.title);
-const artist = ref(songStore.currentSong.artist);
+const artist = ref(artistStore.artists.find(artist => artist.name === songStore.currentSong.artist));
 const genre = ref(songStore.currentSong.genre);
 const length = ref(songStore.currentSong.length);
 </script>
@@ -27,9 +29,10 @@ const length = ref(songStore.currentSong.length);
         <label class="block text-gray-700 text-sm font-bold mb-2" for="artist">
           Artist
         </label>
-        <input
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="artist" type="text" placeholder="Artist" v-model="artist">
+        <select id ="artist" class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" v-model="artist">
+          <option selected disabled value="undefined">--choose artist--</option>
+          <option v-for="artist in artistStore.artists" v-bind:value="artist">{{artist.name}}</option>
+        </select>
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="genre">

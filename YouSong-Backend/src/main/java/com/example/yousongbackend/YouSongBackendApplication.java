@@ -1,5 +1,7 @@
 package com.example.yousongbackend;
 
+import com.example.yousongbackend.artist.Artist;
+import com.example.yousongbackend.artist.ArtistRepository;
 import com.example.yousongbackend.song.Song;
 import com.example.yousongbackend.song.SongRepository;
 import org.slf4j.Logger;
@@ -17,6 +19,8 @@ public class YouSongBackendApplication implements CommandLineRunner {
 
     @Autowired
     private SongRepository songRepository;
+    @Autowired
+    private ArtistRepository artistRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(YouSongBackendApplication.class, args);
@@ -24,28 +28,56 @@ public class YouSongBackendApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        songRepository.save(new Song("INVISIBLE","Duran Duran","synthpop", LocalTime.of(0,3,11)));
-        songRepository.save(new Song("Void","Six Tin Jonesy","punk ska", LocalTime.of(0,3,44)));
-        songRepository.save(new Song("Rock and Stone","Wind Rose","tolkien metal", LocalTime.of(0,5,5)));
-        songRepository.save(new Song("God of War Ragnarök (feat. Eivør)","Bear McCreary","soundtrack", LocalTime.of(0,4,35)));
-        songRepository.save(new Song("Nueva York Train Chase","Daniel Pemberton","soundtrack", LocalTime.of(0,5,58)));
+        Artist sixTinJonesy = new Artist("Six Tin Jonesy");
+        Artist ironMaiden = new Artist("Iron Maiden");
+        Artist windRose = new Artist("Wind Rose");
+        Artist metallica = new Artist("Metallica");
+        Artist capcomSoundTeam = new Artist("Capcom Sound Team");
+        Artist johnPaesano = new Artist("John Paesano");
+        Artist bearMcCreary = new Artist("Bear McCreary");
+        Artist alanSilvestri = new Artist("Alan Silvestri");
+        Artist danielPemberton = new Artist("Daniel Pemberton");
+        Artist unpeople = new Artist("unpeople");
 
-        songRepository.save(new Song("Silver-winged Star - Valstrax","Capcom Sound Team","soundtrack", LocalTime.of(0,4,3)));
-        songRepository.save(new Song("The Shire","Howard Shore","soundtrack", LocalTime.of(0,3,44)));
-        songRepository.save(new Song("Cyanide","Metallica","metal", LocalTime.of(0,6,40)));
-        songRepository.save(new Song("Moth Into Flame","Metallica","metal", LocalTime.of(0,5,51)));
-        songRepository.save(new Song("Painkiller","Judas Priest","metal", LocalTime.of(0,6,6)));
+        artistRepository.save(sixTinJonesy);
+        artistRepository.save(ironMaiden);
+        artistRepository.save(windRose);
+        artistRepository.save(metallica);
+        artistRepository.save(capcomSoundTeam);
+        artistRepository.save(johnPaesano);
+        artistRepository.save(bearMcCreary);
+        artistRepository.save(alanSilvestri);
+        artistRepository.save(danielPemberton);
+        artistRepository.save(unpeople);
 
-        songRepository.save(new Song("Killer Queen","Queen","pop", LocalTime.of(0,3,0)));
-        songRepository.save(new Song("i wish that i could wear hats","Brian David Gilber","indie", LocalTime.of(0,1,26)));
-        songRepository.save(new Song("Rainbow in the Dark","Dio","metal", LocalTime.of(0,4,13)));
-        songRepository.save(new Song("Chop Suey!","System Of A Down","metal", LocalTime.of(0,3,30)));
-        songRepository.save(new Song("To My Son","Daniel Pemberton","soundtrack", LocalTime.of(0,1,42)));
+        songRepository.save(new Song("Void",sixTinJonesy,"punks-ska",LocalTime.of(0,3,44)));
+        songRepository.save(new Song("Neverresting Eyes",sixTinJonesy,"punks-ska",LocalTime.of(0,2,33)));
 
-        songRepository.save(new Song("waste","unpeople","metal", LocalTime.of(0,3,51)));
-        songRepository.save(new Song("smother","unpeople","metal", LocalTime.of(0,3,21)));
-        songRepository.save(new Song("going numb","unpeople","metal", LocalTime.of(0,3,25)));
-        songRepository.save(new Song("overthinking","unpeople","metal", LocalTime.of(0,3,31)));
-        songRepository.save(new Song("moon baboon","unpeople","metal", LocalTime.of(0,4,16)));
+        songRepository.save(new Song("The Trooper",ironMaiden,"metal",LocalTime.of(0,4,13)));
+        songRepository.save(new Song("Charlot the Harlot",sixTinJonesy,"metal",LocalTime.of(0,4,13)));
+
+        songRepository.save(new Song("Rock and Stone",windRose,"tolkien metal",LocalTime.of(0,5,5)));
+        songRepository.save(new Song("There and Back Again",windRose,"tolkien metal",LocalTime.of(0,6,19)));
+
+        songRepository.save(new Song("Master Of Puppets",metallica,"metal",LocalTime.of(0,8,35)));
+        songRepository.save(new Song("Moth Into Flame",metallica,"metal",LocalTime.of(0,5,50)));
+
+        songRepository.save(new Song("The Legend Descends",capcomSoundTeam,"video game soundtrack",LocalTime.of(0,5,11)));
+        songRepository.save(new Song("Proof of a Hero - Monster Hunter World edition",capcomSoundTeam,"punks-ska",LocalTime.of(0,3,13)));
+
+        songRepository.save(new Song("Greater Together",johnPaesano,"video game soundtrack",LocalTime.of(0,3,18)));
+        songRepository.save(new Song("Eight Years in the Making",johnPaesano,"video game soundtrack",LocalTime.of(0,2,2)));
+
+        songRepository.save(new Song("A Son's Path",bearMcCreary,"video game soundtrack",LocalTime.of(0,3,31)));
+        songRepository.save(new Song("God of War Ragnarök",bearMcCreary,"video game soundtrack",LocalTime.of(0,4,35)));
+
+        songRepository.save(new Song("Portals",alanSilvestri,"movie soundtrack",LocalTime.of(0,3,17)));
+        songRepository.save(new Song("The Real Hero",alanSilvestri,"movie soundtrack",LocalTime.of(0,5,55)));
+
+        songRepository.save(new Song("Across the Spider-Verse (Intro)",danielPemberton,"movie soundtrack",LocalTime.of(0,2,45)));
+        songRepository.save(new Song("Nueva York Train Chase",danielPemberton,"movie soundtrack",LocalTime.of(0,5,58)));
+
+        songRepository.save(new Song("the graden",unpeople,"metal",LocalTime.of(0,3,23)));
+        songRepository.save(new Song("waste",unpeople,"metal",LocalTime.of(0,3,51)));
     }
 }

@@ -1,23 +1,20 @@
 <script setup>
-import {useSongStore} from "@/stores/songStore.js";
-import axios from "axios";
-const props = defineProps(['title', 'artist', 'genre', 'length', 'id']);
-const songStore = useSongStore();
+import {useArtistStore} from "@/stores/artistStore.js";
 
+const props = defineProps(['name', 'id']);
+const artistStore = useArtistStore();
 
+console.log(props);
 </script>
 
 <template>
   <div class="relative mx-12 my-8 w-full sm:w-60">
-    <div class="border-t-8 border-x-8 border-black p-4">
-      <h1 class="font-bold text-xl truncate">{{ title }}</h1>
-      <h2 class="text-xl truncate">by {{ artist }}</h2>
-      <p class="text-sm truncate">Genre: {{ genre }}</p>
-      <p class="text-lg truncate">{{ length }}</p>
+    <div class="border-t-8 border-x-8 border-black p-4 min-h-40">
+      <h2 class="text-2xl font-bold truncate">{{ name }}</h2>
     </div>
     <div class="absolute flex items-center justify-between -bottom-6 right-6 w-full">
       <button class="bg-black rounded-[50%] w-14 h-10 p-6 -ml-6 text-white" type="button"
-              @click="songStore.deleteSong(id);">
+              @click="artistStore.deleteArtist(id);">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">
@@ -27,7 +24,7 @@ const songStore = useSongStore();
         </div>
       </button>
       <button class="bg-black rounded-[50%] w-14 h-10 p-6 -mr-6 text-white" type="button"
-              @click="songStore.changeSong(id); songStore.edit=true; $router.push('songs/editor')">
+              @click="artistStore.changeArtist(id); artistStore.edit=true; $router.push('artists/editor')">
         <div class="-ml-2 -mt-3">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">

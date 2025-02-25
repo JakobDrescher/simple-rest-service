@@ -2,6 +2,8 @@ import {createRouter, createWebHistory} from "vue-router";
 
 import SongList from "@/components/SongList.vue";
 import SongEditor from "@/components/SongEditor.vue";
+import ArtistList from "@/components/ArtistList.vue";
+import ArtistEditor from "@/components/ArtistEditor.vue";
 
 
 const router = createRouter({
@@ -13,10 +15,20 @@ const router = createRouter({
             component: SongList
         },
         {
-            path: "/editor",
-            name: 'editor',
+            path: "/songs/editor",
+            name: 'songEditor',
             component: SongEditor
         },
+        {
+            path: "/artists",
+            name: 'artists',
+            component: ArtistList
+        },
+        {
+            path: "/artists/editor",
+            name: 'artistEditor',
+            component: ArtistEditor
+        }
     ]
 });
 

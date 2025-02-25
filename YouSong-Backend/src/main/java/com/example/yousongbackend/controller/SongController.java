@@ -24,10 +24,7 @@ public class SongController {
 
     @GetMapping("/songs/{search}")
     public List<Song> getSongsBySearch(@PathVariable String search) {
-        List<Song> result = new ArrayList<>();
-        result.addAll(songRepository.findByTitleContainingIgnoreCase(search));
-        result.addAll(songRepository.findByArtistContainingIgnoreCase(search));
-        return result;
+        return songRepository.findByArtistContainingIgnoreCaseOrTitleContainingIgnoreCase(search,search);
     }
 
     @PostMapping("/songs")

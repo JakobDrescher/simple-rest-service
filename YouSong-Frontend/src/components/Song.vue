@@ -1,7 +1,6 @@
 <script setup>
 import {useSongStore} from "@/stores/songStore.js";
 import axios from "axios";
-
 const props = defineProps(['title', 'artist', 'genre', 'length', 'id']);
 const songStore = useSongStore();
 

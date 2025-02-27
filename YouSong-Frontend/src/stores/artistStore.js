@@ -28,11 +28,11 @@ export const useArtistStore = defineStore('artistStore', () => {
     function getArtists() {
         if(searchTerm.value == "") {
             return axios.get("http://localhost:8888/api/artists").then((res) => {
-                artists.value = res.data;
+                artists.value = res.data.content;
             });
         }else{
             return axios.get("http://localhost:8888/api/artists/"+searchTerm.value).then((res) => {
-            artists.value = res.data;
+            artists.value = res.data.content;
         });
         }
     }
@@ -50,7 +50,6 @@ export const useArtistStore = defineStore('artistStore', () => {
     }
 
     function deleteArtist(id) {
-        console.log(id);
         axios.delete(`http://localhost:8888/api/artists/`+id).then((res) => {getArtists();});
     }
 

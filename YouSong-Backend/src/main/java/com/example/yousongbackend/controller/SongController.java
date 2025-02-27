@@ -1,13 +1,12 @@
 package com.example.yousongbackend.controller;
 
-import com.example.yousongbackend.artist.ArtistRepository;
 import com.example.yousongbackend.song.Song;
 import com.example.yousongbackend.song.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -17,22 +16,15 @@ public class SongController {
 
     @Autowired
     private SongRepository songRepository;
-    @Autowired
-    private ArtistRepository artistRepository;
 
     @GetMapping
-    public List<Song> getAllSongs() {
-        return songRepository.findAll();
+    public Page<Song> getAllSongs(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        return songRepository.findAll(PageRequest.of(page, size));
     }
 
     @GetMapping("/{search}")
-    public List<Song> getSongsBySearch(@PathVariable String search) {
-        List<Song> result = new ArrayList<>();
-        result.addAll(songRepository.findByTitleContainingIgnoreCase(search));
-        artistRepository.findByNameContainingIgnoreCase(search).forEach(artist -> {
-            result.addAll(songRepository.findByArtist(artist));
-        });
-        return result;
+    public Page<Song> getSongsBySearch(@PathVariable String search,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        return songRepository.findByTitleContainingIgnoreCaseOrArtist_NameContainingIgnoreCase(search,search,PageRequest.of(page, size));
     }
 
     @PostMapping

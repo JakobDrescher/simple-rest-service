@@ -1,12 +1,15 @@
 package com.example.yousongbackend.artist;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
 
-public interface ArtistRepository extends JpaRepository<Artist, Long> {
+public interface ArtistRepository extends PagingAndSortingRepository<Artist, Long>, CrudRepository<Artist, Long> {
     Artist findById(long id);
 
-    List<Artist> findByNameContainingIgnoreCase(String name);
+    Page<Artist> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

@@ -12,7 +12,7 @@ export const useSongStore = defineStore('songStore', () => {
     });
 
     const pageInfo = ref({
-        number: 2,
+        number: 0,
         totalPages: null,
     })
 

@@ -8,16 +8,21 @@ export const useArtistStore = defineStore('artistStore', () => {
         name: null
     });
 
+    const pageInfo = ref({
+        number: 0,
+        totalPages: null,
+    })
+
     const artists = ref([]);
-    const searchTerm = ref ("");
+    const searchTerm = ref("");
     getArtists();
 
     const edit = ref(false);
 
-    function changeArtist(id=null) {
-        if (id!=null) {
+    function changeArtist(id = null) {
+        if (id != null) {
             currentArtist.value = artists.value.filter((artist) => artist.id == id)[0];
-        }else{
+        } else {
             currentArtist.value = {
                 id: null,
                 name: null
@@ -26,32 +31,54 @@ export const useArtistStore = defineStore('artistStore', () => {
     }
 
     function getArtists() {
-        if(searchTerm.value == "") {
-            return axios.get("http://localhost:8888/api/artists").then((res) => {
+        let number = pageInfo.value.number;
+        if (searchTerm.value == "") {
+            return axios.get("http://localhost:8888/api/artists", {params: {page: number}}).then((res) => {
                 artists.value = res.data.content;
+                pageInfo.value.number = res.data.number;
+                pageInfo.value.totalPages = res.data.totalPages;
             });
-        }else{
-            return axios.get("http://localhost:8888/api/artists/"+searchTerm.value).then((res) => {
-            artists.value = res.data.content;
-        });
+        } else {
+            return axios.get("http://localhost:8888/api/artists/" + searchTerm.value, {params: {page: number}}).then((res) => {
+                artists.value = res.data.content;
+                pageInfo.value.number = res.data.number;
+                pageInfo.value.totalPages = res.data.totalPages;
+            });
         }
     }
 
     function createArtist(name) {
         axios.post("http://localhost:8888/api/artists", {
             name: name
-        }).then(() => {getArtists()});
+        }).then(() => {
+            getArtists()
+        });
     }
 
     function editArtist(id, name) {
         axios.put(`http://localhost:8888/api/artists/${id}`, {
             name: name
-        }).then(() => {getArtists()});
+        }).then(() => {
+            getArtists()
+        });
     }
 
     function deleteArtist(id) {
-        axios.delete(`http://localhost:8888/api/artists/`+id).then((res) => {getArtists();});
+        axios.delete(`http://localhost:8888/api/artists/` + id).then((res) => {
+            getArtists();
+        });
     }
 
-    return {artists, getArtists, deleteArtist,searchTerm,currentArtist,edit,changeArtist,createArtist,editArtist};
+    return {
+        artists,
+        getArtists,
+        deleteArtist,
+        searchTerm,
+        currentArtist,
+        edit,
+        changeArtist,
+        createArtist,
+        editArtist,
+        pageInfo
+    };
 });

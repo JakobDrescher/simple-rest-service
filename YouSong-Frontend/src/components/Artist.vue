@@ -3,7 +3,6 @@ import {useArtistStore} from "@/stores/artistStore.js";
 
 const props = defineProps(['name', 'id']);
 const artistStore = useArtistStore();
-
 console.log(props);
 </script>
 

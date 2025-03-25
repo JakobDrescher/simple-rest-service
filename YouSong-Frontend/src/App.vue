@@ -12,7 +12,7 @@ const artistStore = useArtistStore();
 <template>
   <nav class="bg-black p-5 flex flex-row justify-evenly items-baseline">
     <h1 class="text-white font-extrabold text-6xl pb-3 cursor-pointer"
-        @click="songStore.changeSong(); songStore.edit=false; $router.push('/')">YouSong</h1>
+        @click="songStore.changeSong(); songStore.edit=false; songStore.getSongs(); $router.push('/')">YouSong</h1>
     <input v-if="$route.name=='home'" type="text"
            class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
            placeholder="Title or Artist" v-model="songStore.searchTerm" @input="songStore.getSongs()">

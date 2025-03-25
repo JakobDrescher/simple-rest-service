@@ -5,6 +5,8 @@ import com.example.yousongbackend.artist.ArtistRepository;
 import com.example.yousongbackend.song.Song;
 import com.example.yousongbackend.song.SongRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +21,13 @@ public class ArtistController {
     private SongRepository songRepository;
 
     @GetMapping
-    public List<Artist> getAllArtists() {
-        return artistRepository.findAll();
+    public Page<Artist> getAllArtists(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        return artistRepository.findAll(PageRequest.of(page, size));
     }
 
     @GetMapping("/{search}")
-    public List<Artist> getAllArtists(@PathVariable String search) {
-        return artistRepository.findByNameContainingIgnoreCase(search);
+    public Page<Artist> getAllArtists(@PathVariable String search, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        return artistRepository.findByNameContainingIgnoreCase(search, PageRequest.of(page, size));
     }
 
     @PostMapping

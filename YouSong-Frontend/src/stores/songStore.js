@@ -10,6 +10,12 @@ export const useSongStore = defineStore('songStore', () => {
         genre: null,
         length: null
     });
+
+    const pageInfo = ref({
+        number: 0,
+        totalPages: null,
+    })
+
     const searchTerm = ref ("");
 
     const songs = ref([]);
@@ -69,32 +75,31 @@ export const useSongStore = defineStore('songStore', () => {
 
     function getSongs() {
         songs.value=[];
+        let number = pageInfo.value.number;
         if(searchTerm.value == "") {
-            return axios.get("http://localhost:8888/api/songs").then((res) => {
-                res.data.forEach((song) => {
-                    let name = ((song.artist!=null)?song.artist.name:"unknown");
-                    songs.value.push({
-                        id: song.id,
-                        title: song.title,
-                        artist: name,
-                        genre: song.genre,
-                        length: song.length
-                    })
-                });
+            axios.get("http://localhost:8888/api/songs",{params:{page: number}}).then((res) => {
+                transfer(res);
             });
         }else{
-            return axios.get("http://localhost:8888/api/songs/"+searchTerm.value).then((res) => {
-                res.data.forEach((song) => {
-                    let name = ((song.artist!=null)?song.artist.name:"unknown");
-                    songs.value.push({
-                        id: song.id,
-                        title: song.title,
-                        artist: name,
-                        genre: song.genre,
-                        length: song.length
-                    })
-                });
+            axios.get("http://localhost:8888/api/songs/"+searchTerm.value,{params:{page: number}}).then((res) => {
+                transfer(res);
             });
+        }
+
+        function transfer(res) {
+            let data=res.data;
+            data.content.forEach((song) => {
+                let name = ((song.artist != null) ? song.artist.name : "unknown");
+                songs.value.push({
+                    id: song.id,
+                    title: song.title,
+                    artist: name,
+                    genre: song.genre,
+                    length: song.length
+                })
+            });
+            pageInfo.value.number = data.number;
+            pageInfo.value.totalPages = data.totalPages;
         }
     }
 
@@ -102,5 +107,5 @@ export const useSongStore = defineStore('songStore', () => {
         axios.delete(`http://localhost:8888/api/songs/`+id).then((res) => {getSongs()});
     }
 
-    return {currentSong, changeSong, edit, songs, editSong, createSong, searchTerm,getSongs,deleteSong};
+    return {currentSong, changeSong, edit, songs, editSong, createSong, searchTerm,getSongs,deleteSong, pageInfo};
 });

@@ -4,6 +4,7 @@ import com.example.yousongbackend.artist.Artist;
 import com.example.yousongbackend.artist.ArtistRepository;
 import com.example.yousongbackend.song.Song;
 import com.example.yousongbackend.song.SongRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,12 +32,12 @@ public class ArtistController {
     }
 
     @PostMapping
-    public Artist createArtist(@RequestBody Artist artist) {
+    public Artist createArtist(@Valid @RequestBody Artist artist) {
         return artistRepository.save(artist);
     }
 
     @PutMapping("/{id}")
-    public Artist updateSong(@PathVariable long id, @RequestBody Artist updatedArtist) {
+    public Artist updateSong( @PathVariable long id, @Valid @RequestBody Artist updatedArtist) {
         Artist artist = artistRepository.findById(id);
         artist.setName(updatedArtist.getName());
         return artistRepository.save(artist);

@@ -2,6 +2,7 @@ package com.example.yousongbackend.controller;
 
 import com.example.yousongbackend.song.Song;
 import com.example.yousongbackend.song.SongRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,12 +29,12 @@ public class SongController {
     }
 
     @PostMapping
-    public Song createSong(@RequestBody Song song) {
+    public Song createSong(@Valid @RequestBody Song song) {
         return songRepository.save(song);
     }
 
     @PutMapping("/{id}")
-    public Song updateSong(@PathVariable long id, @RequestBody Song updatedSong) {
+    public Song updateSong(@PathVariable long id, @Valid @RequestBody Song updatedSong) {
         Song song = songRepository.findById(id);
         song.setTitle(updatedSong.getTitle());
         song.setArtist(updatedSong.getArtist());
